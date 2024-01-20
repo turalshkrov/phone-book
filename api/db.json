@@ -1,0 +1,18 @@
+{
+  "profiles": [
+    {
+      "id": 0,
+      "firstName": "Leo",
+      "lastName": "Messi",
+      "phoneNumber": "123456789",
+      "email": "leo@messi.fcb.com"
+    },
+    {
+      "id": 1,
+      "firstName": "Tural",
+      "lastName": "Şükürov",
+      "phoneNumber": "+994558593878",
+      "email": ""
+    }
+  ]
+}
