@@ -1,76 +1,168 @@
 const BASE_URL = "http://localhost:3000/profiles";
-const profilesTableBody = document.querySelector("#profiles-table-body");
-const profileForm = document.querySelector("#profile-form");
+const dataTableBody = document.querySelector("#profiles-table-body");
+const dataCreateForm = document.querySelector("#create-data-form");
+const showCreateModal = document.querySelector("#show-create-modal");
+const createDataSubmitBtn = document.querySelector("#create-data-submit-btn");
+const editDataSubmitBtn = document.querySelector("#edit-data-submit-btn");
+const deleteSubmitBtn = document.querySelector("#delete-submit-btn");
 
-let id = 0;
+const firstNameInput = dataCreateForm.querySelector("#first-name");
+const lastNameInput = dataCreateForm.querySelector("#last-name");
+const phoneNumberInput = dataCreateForm.querySelector("#phone-number");
+const emailInput = dataCreateForm.querySelector("#email");
 
+let editDataId;
+let deleteDataId;
+
+// Fetching data from api
 const fetchData = async () => {
   const response = await fetch(BASE_URL);
   if (response.status !== 200) {
     return [];
   }
   const data = await response.json();
-  id = data[data.length - 1]["id"] += 1;
   return data;
 }
-const createProfileRow = (profile) => {
-  const profileRowElement = document.createElement("tr");
-  for (const key in profile) {
+
+const showEditModal = (data) => {
+  createDataSubmitBtn.classList.add("d-none");
+  editDataSubmitBtn.classList.remove("d-none");
+
+  firstNameInput.value = data["firstName"];
+  lastNameInput.value = data["lastName"];
+  phoneNumberInput.value = data["phoneNumber"];
+  emailInput.value = data["email"];
+  editDataId = data["id"];
+}
+
+// Creating row element dynamicly
+const createRow = (data) => {
+  const rowElement = document.createElement("tr");
+  rowElement.id = data["id"];
+  for (const key in data) {
     if (key !== "id") {
       const td = document.createElement("td");
-      td.innerText = profile[key];
-      profileRowElement.append(td);
+      td.innerText = data[key];
+      rowElement.append(td);
     }
   }
-  profileRowElement.innerHTML += `<td>
-    <button class="btn btn-primary btn-sm">
-      <i class="bi bi-pencil-square"></i>
-    </button>
-    <button class="btn btn-danger btn-sm">
-      <i class="bi bi-trash-fill"></i>
-    </button>
-  </td>`
-  profilesTableBody.append(profileRowElement);
+  const editBtn = document.createElement("button");
+  editBtn.className = "btn btn-primary btn-sm";
+  editBtn.innerText = "Edit";
+  editBtn.setAttribute("data-bs-toggle", "modal");
+  editBtn.setAttribute("data-bs-target", "#form-modal");
+
+  editBtn.addEventListener("click", () => {
+    showEditModal(data);
+  })
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "btn btn-danger btn-sm ms-2";
+  deleteBtn.innerText = "Delete";
+  deleteBtn.setAttribute("data-bs-toggle", "modal");
+  deleteBtn.setAttribute("data-bs-target", "#delete-modal");
+  deleteBtn.addEventListener("click", () => {
+    deleteDataId = data["id"];
+  })
+
+  const actionsTd = document.createElement("td");
+  actionsTd.append(editBtn, deleteBtn);
+
+  rowElement.appendChild(actionsTd);
+  dataTableBody.append(rowElement);
 }
+
+// Fill data to table
 const fillData = async () => {
-  const peofiles = await fetchData();
-  peofiles.forEach(profile => {
-    createProfileRow(profile);
+  const data = await fetchData();
+  data.forEach(dataElement => {
+    createRow(dataElement);
   });
 }
 
-const createProfile = () => {
-  const firstName = profileForm.querySelector("#first-name").value;
-  const lastName = profileForm.querySelector("#last-name").value;
-  const phoneNumber = profileForm.querySelector("#phone-number").value;
-  const email = profileForm.querySelector("#email").value;
-  const profile = {
+// Create data object
+const createDataObject = () => {
+  let id = String(Date.now());
+  const firstName = firstNameInput.value;
+  const lastName = lastNameInput.value;
+  const phoneNumber = phoneNumberInput.value;
+  const email = emailInput.value;
+  const dataObject = {
     id,
     firstName,
     lastName,
     phoneNumber,
     email
   }
-  id += 1;
-  return profile;
+  return dataObject;
 }
 
-const postProfileToApi = async (profile) => {
+// Post data Object to API
+const postDataToApi = async (data) => {
   const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-type": "Application/json",
     },
-    body: JSON.stringify(profile)
+    body: JSON.stringify(data)
   });
-  profile = await response.json();
-  createProfileRow(profile);
+  data = await response.json();
+  createRow(data);
+}
+
+const putEditDataToAPi = async (data) => {
+  const editDataRow = dataTableBody.querySelector(`[id = "${editDataId}"]`);
+  const response = await fetch(`${BASE_URL}/${editDataId}`, {
+    method: "PUT",
+    headers: {
+      "Content-type": "Application/json",
+    },
+    body: JSON.stringify(data)
+  });
+  if (response.ok) {
+    data = await response.json();
+    editDataRow.children[0].innerText = data["firstName"];
+    editDataRow.children[1].innerText = data["lastName"];
+    editDataRow.children[2].innerText = data["phoneNumber"];
+    editDataRow.children[3].innerText = data["email"];
+    editDataRow.children[4].firstElementChild.addEventListener("click", () => {
+      showEditModal(data);
+    });
+  }
+}
+
+const deleteDataFromAPI = async (id) => {
+  const deleteDataRow = dataTableBody.querySelector(`[id = "${id}"]`);
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "Application/json",
+    }
+  });
+  if (response.ok) {
+    deleteDataRow.remove();
+  }
 }
 
 fillData();
-profileForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const profile = createProfile();
-  postProfileToApi(profile);
-  profileForm.reset();
-})
+
+showCreateModal.addEventListener("click", () => {
+  dataCreateForm.reset();
+  createDataSubmitBtn.classList.remove("d-none");
+  editDataSubmitBtn.classList.add("d-none");
+});
+
+createDataSubmitBtn.addEventListener("click", () => {
+  const data = createDataObject();
+  postDataToApi(data);
+});
+
+editDataSubmitBtn.addEventListener("click", () => {
+  const editDataRow = dataTableBody.querySelector(`[id = "${editDataId}"]`);
+  const data = createDataObject();
+  putEditDataToAPi(data);
+});
+
+deleteSubmitBtn.addEventListener("click", () => {
+  deleteDataFromAPI(deleteDataId);
+});

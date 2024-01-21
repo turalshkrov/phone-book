@@ -10,34 +10,16 @@
   <title>Phone Book</title>
 </head>
 <body>
-  <main class="my-5">
+  <header class="py-4">
+    <div class="container-lg d-flex justify-content-between align-items-center">
+      <h3>Phone Book</h3>
+      <button id="show-create-modal" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#form-modal">Add Data</button>
+    </div>
+  </header>
+  <main>
     <div class="container-lg">
       <div class="row">
-        <div class="col-12 col-lg-3 border py-3 form-col">
-          <form class="p-2" id="profile-form">
-            <div class="mb-3">
-              <label for="first-name" class="form-label fw-bold">First Name</label>
-              <input type="text" id="first-name" class="form-control" placeholder="Fisrt Name" required>
-            </div>
-            <div class="mb-3">
-              <label for="last-name" class="form-label fw-bold">Last Name</label>
-              <input type="text" id="last-name" class="form-control" placeholder="Last Name" required>
-            </div>
-            <div class="mb-3">
-              <label for="phone-number" class="form-label fw-bold">Phone Number</label>
-              <input type="tel" id="phone-number" class="form-control"  placeholder="xxx-xx-xxx-xx-xx" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label fw-bold">Email</label>
-              <input type="email" id="email" class="form-control"  placeholder="Example@gmail.com">
-            </div>
-            <div class="row px-2 justify-content-around">
-              <button type="button" class="btn btn-secondary col-5">Cancel</button>
-              <button type="submit" class="btn btn-primary col-5" id="form-submit">Submit</button>
-            </div>
-          </form>
-        </div>
-        <div class="col-12 col-lg-9">
+        <div class="">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -55,6 +37,58 @@
       </div>
     </div>
   </main>
+  <div class="modal fade" id="form-modal" tabindex="-1" aria-labelledby="form-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="form-modal-label">Create Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-2" id="create-data-form">
+            <div class="mb-3">
+              <label for="first-name" class="form-label fw-bold">First Name</label>
+              <input type="text" id="first-name" class="form-control" placeholder="Fisrt Name" required>
+            </div>
+            <div class="mb-3">
+              <label for="last-name" class="form-label fw-bold">Last Name</label>
+              <input type="text" id="last-name" class="form-control" placeholder="Last Name" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone-number" class="form-label fw-bold">Phone Number</label>
+              <input type="tel" id="phone-number" class="form-control"  placeholder="xxx-xx-xxx-xx-xx" required>
+            </div>
+            <div class="">
+              <label for="email" class="form-label fw-bold">Email</label>
+              <input type="email" id="email" class="form-control"  placeholder="Example@gmail.com">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="create-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          <button id="edit-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal=label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="delete-modal=label">Delete the row?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure want to delete this row?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="delete-submit-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
