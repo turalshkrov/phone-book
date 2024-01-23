@@ -2,10 +2,33 @@
 
 body {
   font-family: 'Inter', sans-serif;
-}
-.form-col {
-  height: min-content;
-}
+} 
 td {
   vertical-align: middle;
+}
+
+@media only screen and (max-width: 768px) {
+  thead {
+    display: none;
+  }
+  tr, td {
+    border: none;
+    outline: none;
+  }
+  tr {
+    padding: 1rem;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  td {
+    padding-top: .25rem !important;
+    padding-bottom: .25rem !important;
+  }
+  td:last-child {
+    margin-top: .25rem;
+  }
 }
