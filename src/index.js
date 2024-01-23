@@ -1,6 +1,4 @@
-
-
-const BASE_URL = "http://localhost:3000/profiles";
+const BASE_URL = "http://localhost:3000/data";
 const dataTableBody = document.querySelector("#profiles-table-body");
 const dataCreateForm = document.querySelector("#create-data-form");
 const showCreateModal = document.querySelector("#show-create-modal");
