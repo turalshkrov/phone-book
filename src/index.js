@@ -99,35 +99,39 @@ const createDataObject = () => {
 
 // Post data Object to API
 const postDataToApi = async (data) => {
-  const response = await fetch(BASE_URL, {
-    method: "POST",
-    headers: {
-      "Content-type": "Application/json",
-    },
-    body: JSON.stringify(data)
-  });
-  data = await response.json();
-  createRow(data);
+  if (firstNameInput.value && lastNameInput.value && phoneNumberInput.value) {
+    const response = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: JSON.stringify(data)
+    });
+    data = await response.json();
+    createRow(data);
+  }
 }
 
 const putEditDataToAPi = async (data) => {
   const editDataRow = dataTableBody.querySelector(`[id = "${editDataId}"]`);
-  const response = await fetch(`${BASE_URL}/${editDataId}`, {
-    method: "PUT",
-    headers: {
-      "Content-type": "Application/json",
-    },
-    body: JSON.stringify(data)
-  });
-  if (response.ok) {
-    data = await response.json();
-    editDataRow.children[0].innerText = data["firstName"];
-    editDataRow.children[1].innerText = data["lastName"];
-    editDataRow.children[2].innerText = data["phoneNumber"];
-    editDataRow.children[3].innerText = data["email"];
-    editDataRow.children[4].firstElementChild.addEventListener("click", () => {
-      showEditModal(data);
+  if (firstNameInput.value && lastNameInput.value && phoneNumberInput.value) {
+    const response = await fetch(`${BASE_URL}/${editDataId}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "Application/json",
+      },
+      body: JSON.stringify(data)
     });
+    if (response.ok) {
+      data = await response.json();
+      editDataRow.children[0].innerText = data["firstName"];
+      editDataRow.children[1].innerText = data["lastName"];
+      editDataRow.children[2].innerText = data["phoneNumber"];
+      editDataRow.children[3].innerText = data["email"];
+      editDataRow.children[4].firstElementChild.addEventListener("click", () => {
+        showEditModal(data);
+      });
+    }
   }
 }
 
@@ -141,6 +145,13 @@ const deleteDataFromAPI = async (id) => {
   });
   if (response.ok) {
     deleteDataRow.remove();
+  }
+}
+
+const checkInput = () => {
+  if (firstNameInput.value && lastNameInput.value && phoneNumberInput.value) {
+    editDataSubmitBtn.removeAttribute("disabled");
+    createDataSubmitBtn.removeAttribute("disabled");
   }
 }
 
@@ -158,7 +169,6 @@ createDataSubmitBtn.addEventListener("click", () => {
 });
 
 editDataSubmitBtn.addEventListener("click", () => {
-  const editDataRow = dataTableBody.querySelector(`[id = "${editDataId}"]`);
   const data = createDataObject();
   putEditDataToAPi(data);
 });
@@ -166,3 +176,7 @@ editDataSubmitBtn.addEventListener("click", () => {
 deleteSubmitBtn.addEventListener("click", () => {
   deleteDataFromAPI(deleteDataId);
 });
+
+firstNameInput.addEventListener("keyup", checkInput);
+lastNameInput.addEventListener("keyup", checkInput);
+phoneNumberInput.addEventListener("keyup", checkInput);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,13 @@
   <link rel="stylesheet" href="./assets/style.css">
   <title>Phone Book</title>
 </head>
+
 <body>
   <header class="py-4">
     <div class="container-lg d-flex justify-content-between align-items-center">
       <h3>Phone Book</h3>
-      <button id="show-create-modal" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#form-modal">Add Data</button>
+      <button id="show-create-modal" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#form-modal">Add
+        Data</button>
     </div>
   </header>
   <main>
@@ -56,18 +59,20 @@
             </div>
             <div class="mb-3">
               <label for="phone-number" class="form-label fw-bold">Phone Number</label>
-              <input type="tel" id="phone-number" class="form-control"  placeholder="xxx-xx-xxx-xx-xx" required>
+              <input type="tel" id="phone-number" class="form-control" placeholder="xxx-xx-xxx-xx-xx" required>
             </div>
             <div class="">
               <label for="email" class="form-label fw-bold">Email</label>
-              <input type="email" id="email" class="form-control"  placeholder="Example@gmail.com">
+              <input type="email" id="email" class="form-control" placeholder="Example@gmail.com">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="create-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-          <button id="edit-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+          <button disabled id="create-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary"
+            data-bs-dismiss="modal">Submit</button>
+          <button disabled id="edit-data-submit-btn" type="button" form="create-data-form" class="btn btn-primary"
+            data-bs-dismiss="modal">Save changes</button>
         </div>
       </div>
     </div>
@@ -84,7 +89,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="delete-submit-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+          <button id="delete-submit-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
         </div>
       </div>
     </div>
@@ -94,4 +99,5 @@
     crossorigin="anonymous"></script>
   <script src="./src/index.js"></script>
 </body>
+
 </html>
