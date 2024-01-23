@@ -1,3 +1,5 @@
+
+
 const BASE_URL = "http://localhost:3000/profiles";
 const dataTableBody = document.querySelector("#profiles-table-body");
 const dataCreateForm = document.querySelector("#create-data-form");
@@ -10,6 +12,8 @@ const firstNameInput = dataCreateForm.querySelector("#first-name");
 const lastNameInput = dataCreateForm.querySelector("#last-name");
 const phoneNumberInput = dataCreateForm.querySelector("#phone-number");
 const emailInput = dataCreateForm.querySelector("#email");
+
+const phoneMask = IMask(phoneNumberInput, { mask: '+000(00)000-00-00' });
 
 let editDataId;
 let deleteDataId;
@@ -179,4 +183,7 @@ deleteSubmitBtn.addEventListener("click", () => {
 
 firstNameInput.addEventListener("keyup", checkInput);
 lastNameInput.addEventListener("keyup", checkInput);
-phoneNumberInput.addEventListener("keyup", checkInput);
+phoneNumberInput.addEventListener("keyup", () => {
+  checkInput();
+  phoneMask.on();
+});
